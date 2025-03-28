@@ -1,4 +1,6 @@
 using System.Threading.Tasks;
+using Core.CameraService.Enum;
+using Core.CameraService.Keys;
 using Core.EventService.Events;
 using Core.EventService.Interface;
 using Core.EventService.Keys;
@@ -52,10 +54,13 @@ namespace Core.GameService.Service
         {
             _uiService.ShowLoadingScreen();
             await _sceneLoaderService.LoadScene(SceneKeys.KEY_GAME_START_SCENE);
+            // Once the new scene is loaded, switch to the game scene's camera:
+            await ReferenceLocator.Instance.CameraService.SwitchToCamera(CamerasEnum.GameSceneCamera.ToString());
             _gameReady = true;
             await Task.Delay(20);
             _uiService.RemoveLoadingScreen();
         }
+
 
         public async void ReturnGame()
         {
